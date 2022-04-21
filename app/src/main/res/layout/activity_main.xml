@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.catfactsapp.SpinnerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        tools:layout="@layout/fragment_spinner" />
+
     <include
-        android:id="@+id/include"
-        layout="@layout/main_fragment" />
+        layout="@layout/main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/arrow_up_float"
-        tools:ignore="SpeakableTextPresentCheck" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+</LinearLayout>
