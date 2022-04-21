@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CatFactsApp</string>
+    <string name="filter">Filter by breed</string>
+</resources>
