@@ -1,6 +1,11 @@
 package com.example.catfactsapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -27,7 +32,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends FragmentActivity {
 
     CatListAdapter catListAdapter;
     FloatingActionButton floatingActionButton;
@@ -49,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         startUI();
 
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction1 = manager.beginTransaction();
+        FragmentTransaction transaction2 = manager.beginTransaction();
+        transaction1.replace(R.id.main_fragment, new MainFragment()).commit();
+        transaction2.replace(R.id.bottom_fragment, new bottomFragment()).commit();
+
         OkHttpHandler okHttpHandler= new OkHttpHandler(catListAdapter,this);
         okHttpHandler.execute();
 
@@ -63,12 +74,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         totalCats = new ArrayList<>();
 
         breeds = new ArrayList<>();
-        spinner = findViewById(R.id.spinner);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, catBreeds);
+        spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, catBreeds);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
+        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         recyclerView = findViewById(R.id.recyclerView);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         catListAdapter = new CatListAdapter(this, this);
@@ -80,44 +90,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void goTop(View view) {
         recyclerView.smoothScrollToPosition(0);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        filter = catBreeds[i];
-        if(!filter.equals(getResources().getString(R.string.filter))){
-            List<Cat> filteredCatList = filterList(totalCats);
-            catListAdapter.setmCats(filteredCatList);
-            catListAdapter.notifyDataSetChanged();
-        }
-        else{
-            clear(view);
-        }
-    }
-
-    private List<Cat> filterList(List<Cat> totalCats) {
-        List<Cat> result = new ArrayList<>();
-        for (int i = 0 ; i < totalCats.size(); ++i){
-            if (totalCats.get(i).getBreed().equals(filter)) result.add(totalCats.get(i));
-        }
-        return result;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {    }
-
-    public void clear(View view) {
-        String selected = spinner.getSelectedItem().toString();
-        if(!selected.equals(getResources().getString(R.string.filter))){
-            spinner.setSelection(0);
-            catListAdapter.setmCats(totalCats);
-            catListAdapter.notifyDataSetChanged();
-        }
-        else {
-            catListAdapter.setmCats(new ArrayList<Cat>(totalCats));
-            catListAdapter.notifyDataSetChanged();
-        }
     }
 
     public class OkHttpHandler extends AsyncTask<String,Void,String> {
