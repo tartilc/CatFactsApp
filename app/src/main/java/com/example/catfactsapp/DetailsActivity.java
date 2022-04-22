@@ -37,13 +37,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
-
     private void startUI() {
         nameText = findViewById(R.id.name_text2);
-        descText = findViewById(R.id.description_text);
-        tempText = findViewById(R.id.temperament_text);
-        countryText = findViewById(R.id.country_text);
-        wikiText = findViewById(R.id.wiki_text);
+        descText = findViewById(R.id.description_text2);
+        tempText = findViewById(R.id.temperament_text2);
+        countryText = findViewById(R.id.country_text2);
         imageView = findViewById(R.id.image_cat2);
     }
 
@@ -55,8 +53,6 @@ public class DetailsActivity extends AppCompatActivity {
         String country_info = country +" (" + country_code + ")";
         countryText.setText(country_info);
 
-        if(!wiki_link.isEmpty())
-            wikiText.setText(wiki_link);
         if (image.contains("http"))
             Picasso.with(this).load(image).into(imageView);
         else {

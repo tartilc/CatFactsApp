@@ -12,7 +12,6 @@ public class Cat {
     private String country;
     private String breed;
     private String breed_id;
-    private String wikiLink;
     private Boolean downloaded = false;
 
     Boolean getDownloaded() {
@@ -53,10 +52,6 @@ public class Cat {
                 temperament = jsonObject.get("temperament").toString();
             }else temperament = "";
 
-            if(jsonObject.has("wikipedia_url")){
-                wikiLink = jsonObject.get("wikipedia_url").toString();
-            }else wikiLink = "";
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -85,10 +80,6 @@ public class Cat {
 
     String getBreed_id() {
         return breed_id;
-    }
-
-    String getWikiLink() {
-        return wikiLink;
     }
 
     public String getName() {

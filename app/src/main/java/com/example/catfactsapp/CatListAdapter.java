@@ -60,26 +60,22 @@ public class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.CatViewH
 
     @Override
     public void onBindViewHolder(@NonNull CatViewHolder holder, final int position) {
-
-        if (position >= 6) wrMA.get().floatingActionButton.setVisibility(View.VISIBLE);
-        else wrMA.get().floatingActionButton.setVisibility(View.GONE);
-
         if(mCats != null ) {
 
             if(mCats.get(position).getDownloaded()){
-                Log.i("TAG","Picasso poniendo imagen de la raza : " + mCats.get(position).getName() + " en la posicion : " +position);
                 Picasso.with(context).load(mCats.get(position).getImageID()).into(holder.imgItemView);
 
             }
             else {
-                Log.i("TAG","A desacargar imagen de la raza : " + mCats.get(position).getName() + " en la posicion : " +position);
-               CatImageHandler okHttpHandler= new CatImageHandler(mCats.get(position).getImageID(),position,this);
+                CatImageHandler okHttpHandler= new CatImageHandler(mCats.get(position).getImageID(),position,this);
                 okHttpHandler.execute();
                 holder.imgItemView.setImageBitmap(null);
             }
 
             holder.nameItemView.setText(mCats.get(position).getName());
             holder.descItemView.setText(mCats.get(position).getDescription());
+            holder.countryItemView.setText(mCats.get(position).getCountry());
+            holder.temperItemView.setText(mCats.get(position).getDescription());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,12 +88,10 @@ public class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.CatViewH
                     intent.putExtra("breed",mCats.get(position).getBreed());
                     intent.putExtra("breed_id",mCats.get(position).getBreed_id());
                     intent.putExtra("temperament",mCats.get(position).getTemperament());
-                    intent.putExtra("wiki_link",mCats.get(position).getWikiLink());
 
                     context.startActivity(intent);
                 }
             });
-
 
         }
     }
@@ -112,21 +106,21 @@ public class CatListAdapter extends RecyclerView.Adapter<CatListAdapter.CatViewH
         mCats.add(catTemp);
     }
 
-
     static class CatViewHolder extends RecyclerView.ViewHolder {
 
+        private final ImageView imgItemView;
         private final TextView nameItemView;
         private final TextView descItemView;
-        private final ImageView imgItemView;
+        private final TextView countryItemView;
+        private final TextView temperItemView;
 
-
-        private CatViewHolder(View itemView){
+        private CatViewHolder(View itemView) {
             super(itemView);
+            imgItemView = itemView.findViewById(R.id.image_cat);
             nameItemView = itemView.findViewById(R.id.name_text);
             descItemView = itemView.findViewById(R.id.desc_text);
-            imgItemView = itemView.findViewById(R.id.image_cat);
+            countryItemView = itemView.findViewById(R.id.country_text);
+            temperItemView = itemView.findViewById(R.id.temper_text);
         }
-
     }
-
 }

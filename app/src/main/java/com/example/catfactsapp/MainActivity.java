@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +29,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     CatListAdapter catListAdapter;
-    FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
     static List<String> breeds;
 
@@ -55,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void startUI(){
-
-        floatingActionButton = findViewById(R.id.fab);
         buttonClear = findViewById(R.id.clearButton);
 
         filter = getResources().getString(R.string.filter);

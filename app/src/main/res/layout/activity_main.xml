@@ -8,24 +8,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="com.example.catfactsapp.SpinnerFragment"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        tools:layout="@layout/fragment_spinner" />
-
     <include
         layout="@layout/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:visibility="gone"
-        app:srcCompat="@android:drawable/arrow_up_float" />
 
 </LinearLayout>
