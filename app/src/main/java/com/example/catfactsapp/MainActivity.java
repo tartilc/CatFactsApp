@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     List<Cat> totalCats;
     String filter;
-    static String[] catBreeds = { "Filter by breed"};
+    static String[] catBreeds = { "Filter breed"};
 
     static ArrayAdapter<String> adapter;
     Spinner spinner;
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         OkHttpHandler okHttpHandler= new OkHttpHandler(catListAdapter,this);
         okHttpHandler.execute();
-
     }
 
     public void startUI(){
@@ -70,21 +69,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         catListAdapter = new CatListAdapter(this, this);
         recyclerView.setAdapter(catListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-    }
-
-
-    public void goTop(View view) {
-        recyclerView.smoothScrollToPosition(0);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
         filter = catBreeds[i];
         if(!filter.equals(getResources().getString(R.string.filter))){
             List<Cat> filteredCatList = filterList(totalCats);
-            catListAdapter.setmCats(filteredCatList);
+            catListAdapter.setCats(filteredCatList);
             catListAdapter.notifyDataSetChanged();
         }
         else{
@@ -92,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private List<Cat> filterList(List<Cat> totalCats) {
+    private List<Cat> filterList(List<Cat> totalCats)
+    {
         List<Cat> result = new ArrayList<>();
         for (int i = 0 ; i < totalCats.size(); ++i){
             if (totalCats.get(i).getBreed().equals(filter)) result.add(totalCats.get(i));
@@ -101,28 +95,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {    }
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
+
+    }
 
     public void clear(View view) {
         String selected = spinner.getSelectedItem().toString();
         if(!selected.equals(getResources().getString(R.string.filter))){
             spinner.setSelection(0);
-            catListAdapter.setmCats(totalCats);
+            catListAdapter.setCats(totalCats);
             catListAdapter.notifyDataSetChanged();
         }
         else {
-            catListAdapter.setmCats(new ArrayList<Cat>(totalCats));
+            catListAdapter.setCats(new ArrayList<Cat>(totalCats));
             catListAdapter.notifyDataSetChanged();
         }
     }
 
-    public class OkHttpHandler extends AsyncTask<String,Void,String> {
-
-        private WeakReference<CatListAdapter> wrCLA;
+    public class OkHttpHandler extends AsyncTask<String,Void,String>
+    {
+        private WeakReference<CatListAdapter> weakRefCatListAdap;
         private  Context context;
 
         OkHttpHandler(CatListAdapter catListAdapter, Context context) {
-            this.wrCLA = new WeakReference<>(catListAdapter);
+            this.weakRefCatListAdap = new WeakReference<>(catListAdapter);
             this.context = context;
         }
 
@@ -142,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     if(!breeds.contains(breed) && !breed.isEmpty()) breeds.add(breed);
 
                     totalCats.add(catTemp);
-                    wrCLA.get().addCat(catTemp);
-                    wrCLA.get().notifyDataSetChanged();
+                    weakRefCatListAdap.get().addCat(catTemp);
+                    weakRefCatListAdap.get().notifyDataSetChanged();
                 }
 
                 breeds.add(0,getResources().getString(R.string.filter));
@@ -159,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         @Override
-        protected String doInBackground(String[] params) {
-
+        protected String doInBackground(String[] params)
+        {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()

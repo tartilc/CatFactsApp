@@ -18,14 +18,7 @@ import okhttp3.Response;
 public class CatURLHandler extends AsyncTask<String,Void,String> {
 
     private String image_id;
-    private WeakReference<DetailsActivity> wrDA;
     Context context;
-
-    CatURLHandler(String image_id, DetailsActivity detailsActivity, Context context) {
-        this.image_id = image_id;
-        wrDA = new WeakReference<>(detailsActivity);
-        this.context = context;
-    }
 
     @Override
     protected String doInBackground(String... strings) {
@@ -54,11 +47,11 @@ public class CatURLHandler extends AsyncTask<String,Void,String> {
             for (int i = 0; i < jsonArray.length(); i++){
                 if(jsonArray.getJSONObject(i).has("url")){
                     String imageURL = jsonArray.getJSONObject(i).get("url").toString();
-                    Picasso.with(context).load(imageURL).into(wrDA.get().imageView);
                     break;
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 }

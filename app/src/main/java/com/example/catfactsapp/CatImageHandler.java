@@ -14,14 +14,15 @@ import okhttp3.Response;
 
 public class CatImageHandler extends AsyncTask<String,Void,String> {
 
-    private WeakReference<CatListAdapter> wrCLA;
+    private WeakReference<CatListAdapter> weakRefCatListAdap;
     private String image_id;
     private int position;
 
     CatImageHandler(String image_id, int position, CatListAdapter catListAdapter) {
         this.image_id = image_id;
         this.position = position;
-        this.wrCLA = new WeakReference<>(catListAdapter);
+
+        this.weakRefCatListAdap = new WeakReference<>(catListAdapter);
     }
 
     @Override
@@ -33,10 +34,10 @@ public class CatImageHandler extends AsyncTask<String,Void,String> {
 
                 if(jsonArray.getJSONObject(i).has("url")){
                     String imageURL = jsonArray.getJSONObject(i).get("url").toString();
-                    if(position < wrCLA.get().getmCats().size()){
-                        wrCLA.get().getmCats().get(position).setImageID(imageURL);
-                        wrCLA.get().getmCats().get(position).setDownloaded();
-                        wrCLA.get().notifyItemChanged(position);
+                    if(position < weakRefCatListAdap.get().getTheCats().size()){
+                        weakRefCatListAdap.get().getTheCats().get(position).setImageID(imageURL);
+                        weakRefCatListAdap.get().getTheCats().get(position).setDownloaded();
+                        weakRefCatListAdap.get().notifyItemChanged(position);
                     }
                     break;
                 }
